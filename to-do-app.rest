@@ -10,3 +10,16 @@ Content-Type: application/json
     "username":"harsh@singh",
     "password":"123121"
 }
+
+###
+POST http://localhost:5001/auth/login
+Content-Type: application/json
+
+{
+    "username":"harsh@singh",
+    "password":"123121"
+}
+
+###
+GET http://localhost:5001/todo/
+Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM1MzkwMjA5LCJleHAiOjE3MzU0NzY2MDl9.l34tMGpRWyG1wLjfXVFWFEivyMIJ-uYiFdTnUFDwaSY'
