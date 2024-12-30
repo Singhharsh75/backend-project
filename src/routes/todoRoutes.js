@@ -2,36 +2,55 @@ import db from "../db.js";
 import express from "express";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import prisma from "../../prismaDb.js";
 
 
 const router=express.Router();
 
-router.get('/',(req,res)=>{
-    const todosPrepare=db.prepare(`SELECT * FROM todos WHERE (user_id) = ?`);
-    const todos=todosPrepare.all(req.userId);
+router.get('/',async(req,res)=>{
+    const todos=await prisma.todo.findMany({
+        where:{
+            user_id:req.userId
+        }
+    })
     res.json(todos);
 })
 
-router.post('/',(req,res)=>{
+router.post('/',async(req,res)=>{
     const {task}=req.body;
-    const insertTodo=db.prepare('INSERT INTO todos (user_id,task) VALUES (?,?)');
-    const result=insertTodo.run(req.userId,task);
+    const result=await prisma.todo.create({
+        data:{
+            user_id:req.userId,
+            task,
+        }
+    })
     res.status(201).json({message:'Todo added',id:result.lastInsertRowid,task,completed:0});
 })
 
-router.put('/:id',(req,res)=>{
+router.put('/:id',async(req,res)=>{
     const {id}=req.params;
     const {task,completed}=req.body;
-    const putTodo=db.prepare(`UPDATE todos SET completed=? WHERE id=?`);
-    putTodo.run(completed,id);
+    const putTodo=await prisma.todo.update({
+        where:{
+            user_id:req.userId,
+            id:id
+        },
+        data:{
+            completed:!!completed
+        }
+    })
 
     res.json({"message":'Todo completed'})
 })
 
-router.delete('/:id',(req,res)=>{
+router.delete('/:id',async(req,res)=>{
     const {id}=req.params;
-    const deleteTodo=db.prepare('DELETE FROM todos WHERE id=? AND user_id=?');
-    deleteTodo.run(id,req.userId);
+    await prisma.todo.delete({
+        where:{
+            id:id,
+            user_id:req.userId
+        }
+    })
     res.json({"message":'Todo deleted'});
 })
 
