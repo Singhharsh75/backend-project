@@ -1,4 +1,3 @@
-import db from "../db.js";
 import express from "express";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -33,7 +32,7 @@ router.put('/:id',async(req,res)=>{
     const putTodo=await prisma.todo.update({
         where:{
             user_id:req.userId,
-            id:id
+            id:parseInt(id)
         },
         data:{
             completed:!!completed
@@ -47,7 +46,7 @@ router.delete('/:id',async(req,res)=>{
     const {id}=req.params;
     await prisma.todo.delete({
         where:{
-            id:id,
+            id:parseInt(id),
             user_id:req.userId
         }
     })

@@ -1,4 +1,3 @@
-import db from '../db.js'
 import prisma from '../../prismaDb.js'
 import express from 'express'
 import jwt from 'jsonwebtoken'
