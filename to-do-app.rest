@@ -21,5 +21,29 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5001/todo/
+GET http://localhost:5001/todos/
 Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM1MzkwMjA5LCJleHAiOjE3MzU0NzY2MDl9.l34tMGpRWyG1wLjfXVFWFEivyMIJ-uYiFdTnUFDwaSY'
+
+
+###
+POST http://localhost:5001/todos/
+Authorization: 
+Content-Type: application/json
+
+{
+    "task":"Meow Meow Cat :)"
+}
+
+
+###
+PUT http://localhost:5001/todos/2
+Authorization: 
+Content-Type: application/json
+
+{
+    "completed":1
+}
+
+###
+DELETE http://localhost:5001/todos/2
+Authorization: 
